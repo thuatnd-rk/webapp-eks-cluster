@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tidi-payment.fullname" . }}
+  labels:
+    {{- include "tidi-payment.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
+      protocol: TCP
+      nodePort: {{ .Values.service.nodePort }}
+      name: http
+  selector:
+    {{- include "tidi-payment.selectorLabels" . | nindent 4 }}

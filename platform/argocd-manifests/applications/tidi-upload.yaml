@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tidi-upload
+  namespace: argocd
+  labels:
+    app.kubernetes.io/instance: tidi-upload
+    app.kubernetes.io/part-of: tidi
+spec:
+  project: tidi
+  source:
+    repoURL: https://github.com/tidiappvn/tidi-infra
+    targetRevision: HEAD
+    path: helm/tidi-upload
+    helm:
+      valueFiles:
+      - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tidi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

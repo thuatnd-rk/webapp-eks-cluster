@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: tidi-services
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: tidi-dashboard
+        path: helm/tidi-dashboard
+      - name: tidi-message
+        path: helm/tidi-message
+      - name: tidi-order
+        path: helm/tidi-order
+      - name: tidi-socket
+        path: helm/tidi-socket
+      - name: tidi-user
+        path: helm/tidi-user
+      - name: tidi-upload
+        path: helm/tidi-upload
+  template:
+    metadata:
+      name: '{{name}}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/instance: '{{name}}'
+        app.kubernetes.io/part-of: tidi
+    spec:
+      project: tidi
+      source:
+        repoURL: https://github.com/tidiappvn/tidi-infra
+        targetRevision: HEAD
+        path: '{{path}}'
+        helm:
+          valueFiles:
+          - values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: tidi
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
