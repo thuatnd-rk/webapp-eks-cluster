@@ -8,7 +8,8 @@ This is a modern microservices-based platform deployed on Amazon EKS (Elastic Ku
 webapp-eks-cluster/
 ├── ci-cd/           # CI/CD pipeline configurations
 ├── charts/          # Helm charts for Kubernetes deployments
-├── docs/            # Project documentation and runbooks
+├── docs/            # Project documentation and runbooks\
+├── images/          # Images using in repository
 ├── infra/           # Infrastructure as Code (Terraform)
 ├── platform/        # Platform-specific configurations
 └── source-code/     # Microservices source code
